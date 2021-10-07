@@ -1,12 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
-var app_model_1 = require("./app.model");
+var cats_router_1 = require("./cats/cats.router");
 var app = express();
 var port = 8000;
-app.get("/", function (req, res) {
-    console.log(req);
-    res.send({ cats: app_model_1.Cat });
+app.use(function (req, res, next) {
+    console.log(req.rawHeaders[1]);
+    console.log("middleware");
+    next();
+});
+app.use(express.json());
+app.use(cats_router_1.default);
+app.use(function (req, res, next) {
+    res.send({ error: "404 not found error" });
 });
 app.listen(port, function () {
     console.log("server port is " + port);
