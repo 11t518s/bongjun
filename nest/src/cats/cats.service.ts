@@ -1,12 +1,16 @@
 import { CatRequestDto } from './../dto/cats.request.dto';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { AuthService } from './../auth/auth.service';
 import { CatsRepository } from './cats.repository';
 
 import * as bcript from 'bcrypt';
 
 @Injectable()
 export class CatsService {
-  constructor(private readonly catsRepository: CatsRepository) {}
+  constructor(
+    private readonly catsRepository: CatsRepository,
+    private readonly authService: AuthService,
+  ) {}
 
   async signUp(body: CatRequestDto) {
     const { email, name, password } = body;
