@@ -7,11 +7,11 @@ import {
   Body,
   Controller,
   Get,
-  Post,
+  Post, UploadedFiles,
   UseFilters,
   UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+  UseInterceptors
+} from "@nestjs/common";
 import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 import { CatsService } from './cats.service';
@@ -56,7 +56,8 @@ export class CatsController {
   @ApiOperation({ summary: '이미지업로드' })
   @UseInterceptors(FileInterceptor('image'))
   @Post('upload')
-  uploadCatImg() {
+  @UseInterceptors(FileInterceptor('image'))
+  uploadCatImg(@UploadedFiles() files: Array<Express.Multer.File>) {
     return 'uploadImg';
   }
 }
